@@ -8,6 +8,7 @@ An implementation of the training pipeline of AlphaZero for Gomoku
 from __future__ import print_function
 import random
 import numpy as np
+import argparse
 from collections import defaultdict, deque
 from game import Board, Game
 from mcts_pure import MCTSPlayer as MCTS_Pure
@@ -19,11 +20,11 @@ from policy_value_net import PolicyValueNet  # Theano and Lasagne
 
 
 class TrainPipeline():
-    def __init__(self, init_model=None):
+    def __init__(self, init_model=None, board_width=6, board_height=6, n_in_row=4):
         # params of the board and the game
-        self.board_width = 6
-        self.board_height = 6
-        self.n_in_row = 4
+        self.board_width = board_width
+        self.board_height = board_height
+        self.n_in_row = n_in_row
         self.board = Board(width=self.board_width,
                            height=self.board_height,
                            n_in_row=self.n_in_row)
@@ -191,5 +192,12 @@ class TrainPipeline():
 
 
 if __name__ == '__main__':
-    training_pipeline = TrainPipeline()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--board_width', type=int, default=6)
+    parser.add_argument('--board_height', type=int, default=6)
+    parser.add_argument('--n_in_row', type=int, default=4)
+    args = parser.parse_args()
+    training_pipeline = TrainPipeline(board_width=args.board_width,
+                                      board_height=args.board_height,
+                                      n_in_row=args.n_in_row)
     training_pipeline.run()
