@@ -193,11 +193,13 @@ class TrainPipeline():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--init_model', type=str, default=None)
     parser.add_argument('--board_width', type=int, default=6)
     parser.add_argument('--board_height', type=int, default=6)
     parser.add_argument('--n_in_row', type=int, default=4)
     args = parser.parse_args()
-    training_pipeline = TrainPipeline(board_width=args.board_width,
+    training_pipeline = TrainPipeline(init_model=args.init_model,
+                                      board_width=args.board_width,
                                       board_height=args.board_height,
                                       n_in_row=args.n_in_row)
     training_pipeline.run()
